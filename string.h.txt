@@ -1,0 +1,25 @@
+#pragma once
+#include <iostream>
+
+class MyString {
+	char *String;
+	int length;
+	static int number_of_objects;
+	const char forbiddenSymbol = '"'; // Константная переменная в классе
+	MyString(char, int);              // Приватный конструктор
+public:
+	MyString();                    // Конструктор по умолчанию
+	MyString(char *);              // Конструктор с параметрами
+	MyString(const MyString &obj); // конструктор копирования
+	~MyString();                   // Деструктор
+	static MyString* callPrivateConstructor(char, int); // Вызов приватного конструктора
+	static void IncreaseStatic();  // Увеличить статическую переменную
+	static void ReduceStatic();    // Уменьшить статическую переменную
+	static int getStatic();
+	void setString(char *);
+	char* getString();
+	void showString();
+	int getLength();
+	void isSymbol(char);            // функция проверки на содержание символа
+	bool changeSymbol(char, char); // функция изменения символа с первого на второй
+};

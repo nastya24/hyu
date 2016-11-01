@@ -1,0 +1,125 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include "String.h"
+#include <cstring>
+
+
+
+MyString::MyString()
+{
+	String = NULL;
+	length = 0;
+	IncreaseStatic();
+}
+
+MyString::MyString(char symbol, int _length)
+{
+	String = new char[_length];
+	for (int i = 0; i < _length; i++)
+		String[i] = symbol;
+}
+
+MyString* MyString::callPrivateConstructor(char _symbol, int _length)
+{
+	return new MyString(_symbol, _length);
+}
+
+MyString::MyString(char *_String)
+{
+	int _length = strlen(_String);
+	String = new char[_length + 1];
+	strcpy(String, _String);
+	length = strlen(String);
+	IncreaseStatic();
+}
+
+MyString::MyString(const MyString &obj)
+{
+	length = obj.length;
+	String = new char[length];
+	strcpy(String, obj.String);
+	IncreaseStatic();
+}
+
+void MyString::setString(char *_String)
+{
+	if (String != NULL) {
+		strcpy(String, _String);
+		length = strlen(String);
+	}
+	else {
+		int _length = strlen(_String);
+		String = new char[_length + 1];
+		strcpy(String, _String);
+		length = strlen(String);
+	}
+}
+
+char* MyString::getString()
+{
+	if (String != NULL)
+		return String;
+	else
+		return "";
+}
+
+MyString::~MyString()
+{
+	delete[] String;
+	length = 0;
+	ReduceStatic();
+}
+
+void MyString::IncreaseStatic()
+{
+	number_of_objects++;
+}
+
+void MyString::ReduceStatic()
+{
+	number_of_objects--;
+}
+
+int MyString::getStatic()
+{
+	return number_of_objects;
+}
+
+void MyString::showString()
+{
+	std::cout << String << std::endl;
+}
+
+int MyString::getLength()
+{
+	return length;
+}
+
+void MyString::isSymbol(char _symbol)
+{
+	for (int i = 0; i < length; i++) {
+		if (String[i] == _symbol) {
+			std::cout << "The symbol was found. The position of symbol is " << i << std::endl;
+			return;
+		}
+	}
+	std::cout << "Symbol not found!\n";
+}
+
+bool MyString::changeSymbol(char symbol_bef, char symbol_aft)
+{
+	int i = 0;
+	bool flag = false;
+	for (i = 0; i < length; i++) {
+		if (String[i] == symbol_bef) {
+			flag = true;
+			String[i] = symbol_aft;
+		}
+	}
+
+	if (flag == false) {
+		std::cout << "Symbol " << symbol_bef << " not found\n";
+		return false;
+	}
+
+	return true;
+}

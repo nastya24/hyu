@@ -1,0 +1,69 @@
+#include "String.h"
+#include "Windows.h"
+using namespace std;
+
+void SearchWord(MyString*, int); // Функция определения списка строк, содержащих введённое слово
+void Strlen(MyString*, int); // Функция отбора слов по определённой длине
+
+int main()
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	int number = 0;
+	cout << "Введите количество объктов: ";
+	cin >> number;
+
+	char str[80];
+	cin.ignore();
+	MyString *strings = new MyString[number];
+
+	for (int i = 0; i < number; i++) {
+		cout << "Введите строку для объекта strings[" << i << "]: ";
+		cin.getline(str, 79);
+		strings[i].setString(str);
+	}
+	cout << endl;
+
+	for (int i = 0; i < number; i++) {
+		cout << "Строка " << i << ": ";
+		strings[i].showString();
+	}
+
+	Strlen(strings, number);
+	SearchWord(strings, number);
+
+	delete[] strings;
+
+	return 0;
+}
+
+void SearchWord(MyString *_strings, int _number)
+{
+	char *word = new char[80];
+	char *istr;
+	char *word2;
+	cout << "\nВведите слово для поиска в строке: ";
+	cin >> word;
+	for (int i = 0; i < _number; i++) {
+		word2 = _strings[i].getString();
+		istr = strstr(word2, word);
+		if (istr != NULL) {
+			cout << "В объекте strings[" << i << "] " << "поле String содержит слово " << word << endl;
+		}
+	}
+	delete[] word;
+}
+
+void Strlen(MyString *_strings, int _number)
+{
+	int _length = 0;
+	cout << "\nВведите длину строки для отбора строк: ";
+	cin >> _length;
+	for (int i = 0; i < _number; i++) {
+		if (_strings[i].getLength() == _length) {
+			cout << "Строка: ";
+			_strings[i].showString();
+		}
+	}
+}
